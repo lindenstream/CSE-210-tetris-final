@@ -6,7 +6,7 @@ def main():
     # Initialize the game engine
     pygame.init()
 
-    # set screen display size
+    # set window display size
     screen_width = 400
     screen_height = 500
     size = (screen_width, screen_height)
@@ -58,8 +58,8 @@ def main():
                 if event.key == pygame.K_DOWN:
                     pressing_down = False
 
-        # fill screen with white
-        screen.fill(constants.WHITE)
+        # set the window background color
+        screen.fill(constants.BLACK)
 
         # draw a grid on the screen
         for i in range(game.height):
@@ -69,7 +69,7 @@ def main():
                     pygame.draw.rect(screen, constants.COLORS[game.field[i][j]],
                                     [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
 
-        
+        # draws the pieces on the game screen
         if game.figure is not None:
             for i in range(4):
                 for j in range(4):
@@ -83,12 +83,21 @@ def main():
         # set font attributes for score and game over text
         font = pygame.font.SysFont('Tahoma', 15, True, False)
         font1 = pygame.font.SysFont('Tahoma', 45, True, False)
-        text = font.render("Score: " + str(game.score), True, constants.BLACK)
-        text_game_over = font1.render("Game Over", True, constants.BLACK)
-        text_game_over1 = font1.render("Press ESC", True, constants.BLACK)
+        font3 = pygame.font.SysFont('Tahoma', 25, True, False)
+        score_text = font3.render("Score: " + str(game.score), True, constants.WHITE)
+        single_text = font.render("Single x " + str(game.single), True, constants.WHITE)
+        double_text = font.render("Double x " + str(game.double), True, constants.WHITE)
+        triple_text = font.render("Triple x " + str(game.triple), True, constants.WHITE)
+        tetris_text = font.render("Tetris x " + str(game.quad), True, constants.WHITE)
+        text_game_over = font1.render("Game Over", True, constants.WHITE)
+        text_game_over1 = font.render("Press ESC to Start a New Game", True, constants.WHITE)
 
-        # print game over text to screen if game is over
-        screen.blit(text, [0, 0])
+        # print text to display
+        screen.blit(score_text, [0, 0])
+        screen.blit(single_text, [0, 35])
+        screen.blit(double_text, [0, 55])
+        screen.blit(triple_text, [0, 75])
+        screen.blit(tetris_text, [0, 95])
         if game.state == "gameover":
             screen.blit(text_game_over, [screen_width/2 - 128, 200])
             screen.blit(text_game_over1, [screen_width/2 - 115, 265])
@@ -98,5 +107,5 @@ def main():
 
     pygame.quit()
 
-# call to main
+# call to main to start the program
 main()

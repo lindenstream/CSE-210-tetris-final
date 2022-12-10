@@ -1,5 +1,7 @@
 from traits import Traits
 
+# The class 'Tetris' contains methods to direct the game and move methodically through it
+
 class Tetris:
     # Set some local constants
     level = 2
@@ -18,6 +20,10 @@ class Tetris:
         self.width = width
         self.field = []
         self.score = 0
+        self.single = 0
+        self.double = 0
+        self.triple = 0
+        self.quad = 0
         self.state = "start"
         # initialize the playing board
         for i in range(height):
@@ -57,6 +63,14 @@ class Tetris:
                     for j in range(self.width):
                         self.field[i1][j] = self.field[i1 - 1][j]
         self.score += lines ** 2
+        if lines == 1:
+            self.single += 1
+        if lines == 2:
+            self.double += 1
+        if lines == 3:
+            self.triple += 1
+        if lines == 4:
+            self.quad += 1
 
     def go_space(self):
         # this method drop the piece instantly, and freezing upon intersection
@@ -73,6 +87,7 @@ class Tetris:
             self.freeze()
 
     def freeze(self):
+        # this method freezes the game piece in place upon collision with another piece
         for i in range(4):
             for j in range(4):
                 if i * 4 + j in self.figure.image():
@@ -83,12 +98,14 @@ class Tetris:
             self.state = "gameover"
 
     def go_side(self, dx):
+        # this method moves the game piece sideways
         old_x = self.figure.x
         self.figure.x += dx
         if self.intersects():
             self.figure.x = old_x
 
     def rotate(self):
+        # this method rotates the game piece
         old_rotation = self.figure.rotation
         self.figure.rotate()
         if self.intersects():
